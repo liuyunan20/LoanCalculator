@@ -1,34 +1,55 @@
-# loan_principal = 'Loan principal: 1000'
-# final_output = 'The loan has been repaid!'
-# first_month = 'Month 1: repaid 250'
-# second_month = 'Month 2: repaid 250'
-# third_month = 'Month 3: repaid 500'
-
 # write your code here
-print("Enter the loan principal:")
-prcp = float(input())
-print('''What do you want to calculate? 
-type "m" - for number of monthly payments,
-type "p" - for the monthly payment:''')
+import math
+
+print('''What do you want to calculate?
+type "n" for number of monthly payments,
+type "a" for annuity monthly payment amount,
+type "p" for loan principal:''')
 cal_type = input()
-if cal_type == "m":
-    print("Enter the monthly payment:")
-    m_payment = float(input())
-    periods = round(prcp / m_payment)
-    if periods != 1:
-        print("It will take " + str(periods) + " months to repay the loan")
-    else:
-        print("It will take 1 month to repay the loan")
+
+# calculate loan principal
 if cal_type == "p":
-    print("Enter the number of months:")
-    periods = int(input())
-    if prcp % periods == 0:
-        m_payment = int(prcp / periods)
-        print("Your monthly payment = " + str(m_payment))
+    print("Enter the monthly payment:")
+    a = float(input())  # annuity payment
+    print("Enter the number of periods:")
+    n = int(input())  # number of payments
+    print("Enter the loan interest:")
+    i = float(input()) / 1200  # interest
+    p = round(a / (i * math.pow((1 + i), n) / (math.pow((1 + i), n) - 1)))
+    print(f"Your loan principal = {str(p)}!")
+# calculate annuity payment
+if cal_type == "a":
+    print("Enter the loan principal:")
+    p = float(input())  # loan principal
+    print("Enter the number of periods:")
+    n = int(input())
+    print("Enter the loan interest:")
+    i = float(input()) / 1200
+    a = math.ceil(p * i * math.pow((1 + i), n) / (math.pow((1 + i), n) - 1))
+    print(f"Your monthly payment = {str(a)}!")
+# calculate number of payments
+if cal_type == "n":
+    print("Enter the loan principal:")
+    p = float(input())
+    print("Enter the monthly payment:")
+    a = float(input())
+    print("Enter the loan interest:")
+    i = float(input()) / 1200
+    n = math.ceil(math.log((a / (a - i * p)), (1 + i)))
+    if n % 12 == 0:
+        month = ""
+    elif n % 12 == 1:
+        month = "1 month"
     else:
-        if prcp / periods > round(prcp / periods):
-            m_payment = round(prcp / periods) + 1
-        else:
-            m_payment = round(prcp / periods)
-        last_payment = int(prcp - m_payment * (periods - 1))
-        print("Your monthly payment = " + str(m_payment) + " and the last payment = " + str(last_payment) + ".")
+        month = str(n % 12) + " months"
+    if n // 12 == 0:
+        year = ""
+    elif n // 12 == 1:
+        year = "1 year"
+    else:
+        year = str(n // 12) + " years"
+    if month == "" or year == "":
+        connection = ""
+    else:
+        connection = " and "
+    print(f"It will take {year}{connection}{month} to repay this loan!")
