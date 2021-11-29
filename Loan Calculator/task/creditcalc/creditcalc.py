@@ -53,3 +53,4 @@ if cal_type == "n":
     else:
         connection = " and "
     print(f"It will take {year}{connection}{month} to repay this loan!")
+
