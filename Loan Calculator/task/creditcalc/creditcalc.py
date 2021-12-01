@@ -1,5 +1,23 @@
 # write your code here
 import math
+import argparse
+
+# parse arguments from command line
+parser = argparse.ArgumentParser()
+parser.add_argument("--type",
+                    choices=["annuity", "diff"],
+                    help="You need to choose one of the two calculation types")
+parser.add_argument("--payment")
+parser.add_argument("--principal")
+parser.add_argument("--periods")
+parser.add_argument("--interest")
+args = parser.parse_args()
+arg_list = [args.tpye, args.payment, args.principal, args.periods, args.interest]
+if len(arg_list) < 4 or args.interest is None:
+    print("Incorrect parameters")
+else:
+    if args.type == "annuity":
+
 
 print('''What do you want to calculate?
 type "n" for number of monthly payments,
